@@ -1,0 +1,163 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Contingency Table Computation\n1. Given a data set, read it as Spark Dataframe.\n2. Retrieve the column names.\n3. Check the partitions of Dataframe subset.\n4. A function, compute the flatten frequency array.",
+      "dateUpdated": "Jul 14, 2016 1:51:52 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468460693861_-226135327",
+      "id": "20160714-014453_1639883000",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eContingency Table Computation\u003c/h1\u003e\n\u003col\u003e\n\u003cli\u003eGiven a data set, read it as Spark Dataframe.\u003c/li\u003e\n\u003cli\u003eRetrieve the column names.\u003c/li\u003e\n\u003cli\u003eCheck the partitions of Dataframe subset.\u003c/li\u003e\n\u003cli\u003eA function, compute the flatten frequency array.\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Jul 14, 2016 1:44:53 AM",
+      "dateStarted": "Jul 14, 2016 1:51:48 AM",
+      "dateFinished": "Jul 14, 2016 1:51:49 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\ndf \u003d sqlContext.read.format(\u0027com.databricks.spark.csv\u0027).options(header\u003d\u0027true\u0027, inferschema\u003d\u0027true\u0027).load(\u0027/workspace/data/data2-coarse.dat\u0027)",
+      "dateUpdated": "Jul 14, 2016 2:20:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468461108522_1401733980",
+      "id": "20160714-015148_119503888",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jul 14, 2016 1:51:48 AM",
+      "dateStarted": "Jul 14, 2016 2:20:40 AM",
+      "dateFinished": "Jul 14, 2016 2:20:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nprint df.show(5)\nprint df.describe()\n\nimport itertools\ncol_pairs \u003d list(itertools.combinations(df.columns, 2))",
+      "dateUpdated": "Jul 14, 2016 2:35:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468462242054_1687230223",
+      "id": "20160714-021042_1751408352",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+---+------+------+------+---+---+---+\n|Age|Height|Weight|Income|TRV|HTN|DGF|\n+---+------+------+------+---+---+---+\n| 42|    22|    21|    19| 10|  0|  0|\n| 31|    41|    33|    19| 12|  0|  0|\n| 31|    31|    16|    15|  8|  0|  0|\n| 35|    35|    33|    30| 11|  0|  1|\n| 42|    36|     8|    15|  7|  0|  0|\n+---+------+------+------+---+---+---+\nonly showing top 5 rows\n\nNone\nDataFrame[summary: string, Age: string, Height: string, Weight: string, Income: string, TRV: string, HTN: string, DGF: string]\n"
+      },
+      "dateCreated": "Jul 14, 2016 2:10:42 AM",
+      "dateStarted": "Jul 14, 2016 2:35:26 AM",
+      "dateFinished": "Jul 14, 2016 2:35:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\ndef freq_array(_df, domain):\n    \"\"\"\n    Compute the contingency table\n    Param:\n        _df: \n            the Spark DataFrame\n        domain: \n            the specified domain of each column\n    Return:\n        RDD\n    \u003e\u003e\u003e freq_query(df, {\u0027A\u0027:[1,2,3,4,5], \u0027B\u0027:[4,5,6]})\n    \n    \"\"\"\n    ",
+      "dateUpdated": "Jul 14, 2016 2:58:31 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468462367981_-2126634027",
+      "id": "20160714-021247_1147208713",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+---+------+\n|Age|Height|\n+---+------+\n| 42|    22|\n| 31|    41|\n| 31|    31|\n| 35|    35|\n| 42|    36|\n+---+------+\nonly showing top 5 rows\n\nNone\n"
+      },
+      "dateCreated": "Jul 14, 2016 2:12:47 AM",
+      "dateStarted": "Jul 14, 2016 2:41:52 AM",
+      "dateFinished": "Jul 14, 2016 2:41:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468463694052_-1229884508",
+      "id": "20160714-023454_240175091",
+      "dateCreated": "Jul 14, 2016 2:34:54 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ContingencyTable",
+  "id": "2BPS67UFD",
+  "angularObjects": {
+    "2BQMC7P23:shared_process": [],
+    "2BQQT7C8W:shared_process": [],
+    "2BQH2V5CD:shared_process": [],
+    "2BQ69MQS1:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

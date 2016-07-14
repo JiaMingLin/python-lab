@@ -1,0 +1,266 @@
+{
+  "paragraphs": [
+    {
+      "text": "%pyspark\nimport math\nimport pandas as pd\nimport numpy as np\nimport numpy.random as rand",
+      "dateUpdated": "Jul 12, 2016 1:53:32 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468206095706_439150209",
+      "id": "20160711-030135_1457290930",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jul 11, 2016 3:01:35 AM",
+      "dateStarted": "Jul 12, 2016 1:53:32 AM",
+      "dateFinished": "Jul 12, 2016 1:53:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nnrows \u003d 1000; cols \u003d [\u0027V1\u0027, \u0027V2\u0027, \u0027V3\u0027]; lvs \u003d 3\ndata \u003d rand.randint(lvs, size \u003d [nrows, len(cols)])\ndata_tuple \u003d map(tuple, data)\n\npartitions \u003d 5\ntotal_levels \u003d lvs ** len(cols)\n_bin \u003d math.floor(total_levels/partitions)+1\n\nrdd \u003d sc.parallelize(data_tuple, partitions)\n\nkeyed_rdd \u003d rdd.map(lambda x: (x,x))\nrdd2 \u003d keyed_rdd.repartitionAndSortWithinPartitions(\n    numPartitions \u003d partitions,\n    partitionFunc \u003d lambda x: math.floor((x[2] + lvs*x[1] + (lvs**2)*x[0]) / _bin)\n)\n\nprint \u0027\\n\u0027.join([str(len(part)) for part in rdd2.glom().collect()])",
+      "dateUpdated": "Jul 12, 2016 4:02:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468206113282_1624607543",
+      "id": "20160711-030153_353578166",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "196\n231\n224\n243\n106\n"
+      },
+      "dateCreated": "Jul 11, 2016 3:01:53 AM",
+      "dateStarted": "Jul 12, 2016 4:02:38 AM",
+      "dateFinished": "Jul 12, 2016 4:02:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ndef print_info(_rdd):\n    parts \u003d _rdd.glom().collect()\n    for part in parts:\n        for item in part:\n            info \u003d \"key: %s, index: %s\" % (item[0], (item[1][2] + lvs * item[1][1] + (lvs**2) * item[1][0]))\n            print info\n\nprint_info(rdd2)",
+      "dateUpdated": "Jul 12, 2016 4:02:44 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468208810152_-134760292",
+      "id": "20160711-034650_1096854894",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "key: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 0), index: 0\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 1), index: 1\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 0, 2), index: 2\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 0), index: 3\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 1), index: 4\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 1, 2), index: 5\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 0), index: 6\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 1), index: 7\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (0, 2, 2), index: 8\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 0), index: 9\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 1), index: 10\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 0, 2), index: 11\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 0), index: 12\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 1), index: 13\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 1, 2), index: 14\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 0), index: 15\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 1), index: 16\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (1, 2, 2), index: 17\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 0), index: 18\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 1), index: 19\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 0, 2), index: 20\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 0), index: 21\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 1), index: 22\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 1, 2), index: 23\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 0), index: 24\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 1), index: 25\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\nkey: (2, 2, 2), index: 26\n"
+      },
+      "dateCreated": "Jul 11, 2016 3:46:50 AM",
+      "dateStarted": "Jul 12, 2016 4:02:44 AM",
+      "dateFinished": "Jul 12, 2016 4:02:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nnames \u003d [\"Alice\", \"Bob\", \"Mike\"]\nitems \u003d [\"milk\", \"bread\", \"butter\", \"apples\", \"oranges\"]\ndf \u003d sqlContext.createDataFrame([(names[i % 3], items[i % 5]) for i in range(100)], [\"name\", \"item\"])\ndf.show(10)\ndf.stat.crosstab(\"name\", \"item\").show()",
+      "dateUpdated": "Jul 12, 2016 6:34:54 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468222767321_767412790",
+      "id": "20160711-073927_874100205",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+-----+-------+\n| name|   item|\n+-----+-------+\n|Alice|   milk|\n|  Bob|  bread|\n| Mike| butter|\n|Alice| apples|\n|  Bob|oranges|\n| Mike|   milk|\n|Alice|  bread|\n|  Bob| butter|\n| Mike| apples|\n|Alice|oranges|\n+-----+-------+\nonly showing top 10 rows\n\n+---------+------+-------+------+----+-----+\n|name_item|apples|oranges|butter|milk|bread|\n+---------+------+-------+------+----+-----+\n|      Bob|     6|      7|     7|   6|    7|\n|     Mike|     7|      6|     7|   7|    6|\n|    Alice|     7|      7|     6|   7|    7|\n+---------+------+-------+------+----+-----+\n\n"
+      },
+      "dateCreated": "Jul 11, 2016 7:39:27 AM",
+      "dateStarted": "Jul 12, 2016 6:34:54 AM",
+      "dateFinished": "Jul 12, 2016 6:34:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%python\n\nimport numpy as np\nimport time\nsize \u003d 10000000\narr1 \u003d np.random.randint(10000, size \u003d size)\narr2 \u003d np.random.randint(10000, size \u003d size)\n\nstart \u003d time.time()\narr1+arr2\nend \u003d time.time()\nprint end-start\n\nstart \u003d time.time()\narr3 \u003d np.zeros(size, dtype\u003dint)\nfor i in range(size):\n    arr3[i] \u003d arr1[i]+arr2[i]\n\nend \u003d time.time()\nprint end-start",
+      "dateUpdated": "Jul 12, 2016 7:12:23 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468305230805_-1131501907",
+      "id": "20160712-063350_1446066664",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "0.338284015656\n\r        9.41285991669"
+      },
+      "dateCreated": "Jul 12, 2016 6:33:50 AM",
+      "dateStarted": "Jul 12, 2016 7:12:23 AM",
+      "dateFinished": "Jul 12, 2016 7:12:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%python\n\nimport pandas as pd\n\ndf \u003d pd.DataFrame({\n    \u0027A\u0027:[1,2,3,4,5,6,7],\n    \u0027B\u0027:[2,3,4,5,6,7,8],\n    \u0027C\u0027:[3,4,5,6,7,8,9]\n    })\nprint pd.crosstab(df.A, df.C)\n\n",
+      "dateUpdated": "Jul 12, 2016 8:21:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468305283993_1488678618",
+      "id": "20160712-063443_1956835023",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "C  3  4  5  6  7  8  9\n\rA                     \n\r1  1  0  0  0  0  0  0\n\r2  0  1  0  0  0  0  0\n\r3  0  0  1  0  0  0  0\n\r4  0  0  0  1  0  0  0\n\r5  0  0  0  0  1  0  0\n\r6  0  0  0  0  0  1  0\n\r7  0  0  0  0  0  0  1\n\r\n\r[7 rows x 7 columns]"
+      },
+      "dateCreated": "Jul 12, 2016 6:34:43 AM",
+      "dateStarted": "Jul 12, 2016 7:35:41 AM",
+      "dateFinished": "Jul 12, 2016 7:35:41 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%python\n\ndef mi(table):\n    table \u003d table / float(np.sum(table))\n    size \u003d table.shape[0]\n    #print data\n    rowsum \u003d np.sum(table, axis\u003d0)\n    #print rowsum\n    colsum \u003d np.sum(table, axis\u003d1)\n    \n    table_temp \u003dnp.apply_along_axis(\n        lambda col: col / float(col[size]),\n        0,\n        np.vstack((table, rowsum))\n    )[range(size), :]\n    \n    table_temp \u003d np.apply_along_axis(\n        lambda row: row / float(row[size]),\n        1,\n        np.vstack((table_temp.T, colsum)).T\n    )[:,range(size)]\n    \n    return np.sum(np.multiply(table , np.log(table_temp)))\n    \n\nsize \u003d 4\nxtab \u003d np.array([[1,5,9,13],[2,6,10,14],[3,7,11,15],[4,8,12,16]])#np.random.randint(100,size \u003d [size,size]) + np.ones([size,size])\n\nstart \u003d time.time()\nprint mi(xtab)\nend \u003d time.time()\nprint end-start",
+      "dateUpdated": "Jul 12, 2016 9:33:24 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468308892965_-864182223",
+      "id": "20160712-073452_1702540912",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "0.00501194869627\n\r  0.000923871994019"
+      },
+      "dateCreated": "Jul 12, 2016 7:34:52 AM",
+      "dateStarted": "Jul 12, 2016 9:33:24 AM",
+      "dateFinished": "Jul 12, 2016 9:33:24 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468310837744_-604151095",
+      "id": "20160712-080717_1609513372",
+      "dateCreated": "Jul 12, 2016 8:07:17 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Secondary Sort",
+  "id": "2BT9JHJWY",
+  "angularObjects": {
+    "2BQMC7P23:shared_process": [],
+    "2BQQT7C8W:shared_process": [],
+    "2BQH2V5CD:shared_process": [],
+    "2BQ69MQS1:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
